@@ -1,6 +1,6 @@
 {
   "name": "expert_system",
-  "homepage": "es",
+  "homepage": "expert-systems",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
