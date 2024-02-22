@@ -10,7 +10,8 @@ export interface IVariant {
 }
 
 export interface IAnswer {
-    questionsId: number[];
+    positiveQuestionsId: number[];
+    negativeQuestionsId: number[];
     variantId: number;
 }
 

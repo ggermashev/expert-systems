@@ -21,8 +21,9 @@ const AnswersContainer: FC<IAnswersContainer> = observer(({ variantId }) => {
     const navigate = useNavigate()
 
     const questions: IQuestion[] = useMemo(() => {
-        const ids = AnswersStore.getQuestionsId()
-        return QuestionsStore.getQuestionsByIds(ids)
+        const positiveIds = AnswersStore.getPositiveQuestionsId()
+        const negativeIds = AnswersStore.getNegativeQuestionsId()
+        return QuestionsStore.getQuestionsByIds([...positiveIds, ...negativeIds])
     }, [AnswersStore.answers, AnswersStore.activeVariantId])
 
     const variant = useMemo(() => {
@@ -41,14 +42,27 @@ const AnswersContainer: FC<IAnswersContainer> = observer(({ variantId }) => {
                     QuestionsStore.loadQuestionsToBase(title);
                     VariantsStore.loadVariantsToBase(title)
                     AnswersStore.loadAnswersToBase(title)
-
                     navigate('/select')
                 }}>Создать ЭС</Button>
             </Row>
 
             <h1>{variant ? `Условия ответа "${variant}"` : `Выберите ответ, чтобы посмотреть условия`}</h1>
-            {questions?.map(ans =>
-                <Block key={`answer-${ans.id}`} id={ans.id} text={ans.text} store={AnswersStore}/>
+            {questions?.map(q =>
+                <Block 
+                    key={`answer-${q.id}`} 
+                    id={q.id} 
+                    text={q.text} 
+                    store={AnswersStore} 
+                    type="answer"
+                    onClick={() => {
+                        const type = AnswersStore.removeItem(q.id)
+                        if (type === "positive") {
+                            AnswersStore.addNegativeItem(q.id)
+                        } else {
+                            AnswersStore.addPositiveItem(q.id)
+                        }
+                    }}
+                />
             )}
         </AnswersContainerStyled>
     )

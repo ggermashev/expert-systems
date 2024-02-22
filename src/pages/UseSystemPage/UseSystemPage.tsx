@@ -28,6 +28,7 @@ const UseSystemPage = observer(() => {
 
     const [questionIndex, setQuestionIndex] = useState(0)
     const [positiveAnswersId, setPositiveAnswersId] = useState<number[]>([])
+    const [negativeAnswersId, setNegativeAnswersId] = useState<number[]>([])
 
     return (
         <UseSystemPageStyled>
@@ -42,10 +43,11 @@ const UseSystemPage = observer(() => {
                         }}>Да</Button>
                         <Button onClick={() => {
                             setQuestionIndex(questionIndex+1)
+                            setNegativeAnswersId([...negativeAnswersId, QuestionsStore.questions[questionIndex]?.id || -1])
                         }}>Нет</Button>
                     </Row>
                     : <>
-                        {AnswersStore.getVariantsIdByQuestions(positiveAnswersId).map(id =>
+                        {AnswersStore.getVariantsIdByQuestions(positiveAnswersId, negativeAnswersId).map(id =>
                             <p>
                                 <span style={{color: LIGHT_BLUE, fontSize: '1.5em'}}>{"Ответ: "}</span>
                                 {VariantsStore.getTextById(id)}

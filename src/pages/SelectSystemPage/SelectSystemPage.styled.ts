@@ -4,7 +4,7 @@ import { BLACK, BLUE, WHITE } from "../../constants"
 const SelectSystemPageStyled = styled.div`
     width: 100%;
     height: 100vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 1em;
 
     background-color: ${BLACK};

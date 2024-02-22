@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useRef, useState } from "react"
 import { BlockStyled, WrapStyled } from "./Block.styled"
 import { IQuestion } from "../../types"
 import QuestionsStore from "../../store/Questions.store"
@@ -10,18 +10,20 @@ import { observer } from "mobx-react-lite";
 import { BLUE, RED, WHITE } from "../../constants";
 
 
-type TType = "question" | "variant"
+type TType = "question" | "variant" | "answer"
 
 export interface IBlock {
     id: number;
     text: string;
     store: typeof QuestionsStore | typeof VariantsStore | typeof AnswersStore
-    type?: TType
+    type: TType
     onClick?: () => void;
 }
 
 const Block: FC<IBlock> = observer(({ text, id, store, type, onClick }) => {
     const [value, setValue] = useState(text)
+    const [isPositive, setIsPositive] = useState(true)
+    const ansRef = useRef(null)
 
     const [{ isDragging }, dragRef] = useDrag({
         type: `${type}`,
@@ -37,7 +39,7 @@ const Block: FC<IBlock> = observer(({ text, id, store, type, onClick }) => {
         drop: ({ dragId, dragType }: { dragId: number, dragType: TType }) => {
             if (dragType === "question" && type === "variant") {
                 AnswersStore.activeVariantId = id;
-                AnswersStore.addItem(dragId)
+                AnswersStore.addPositiveItem(dragId)
 
                 console.log(AnswersStore.answers)
             }
@@ -51,8 +53,12 @@ const Block: FC<IBlock> = observer(({ text, id, store, type, onClick }) => {
     return (
         <WrapStyled 
             draggable 
-            ref={type === "question" ? dragRef : dropRef}
+            ref={type === "question" ? dragRef : (type === "variant" ? dropRef : ansRef)}
             onClick={() => {
+                onClick?.();
+                if (type === "answer") {
+                    setIsPositive(!isPositive)
+                }
                 if (type === "variant") {
                     AnswersStore.activeVariantId = id
                 }
@@ -61,18 +67,19 @@ const Block: FC<IBlock> = observer(({ text, id, store, type, onClick }) => {
             <BlockStyled
                 value={value}
                 onChange={e => {
-                    setValue(e.target.value);
-                    store?.updateText(id, e.target.value)
+                    if (type !== "answer") {
+                        setValue(e.target.value);
+                        store?.updateText(id, e.target.value)
+                    }
                 }}
-                disabled={!type}
-                onClick={onClick}
                 style={{
-                    borderColor: id === AnswersStore.activeVariantId ? BLUE : WHITE
+                    borderColor: id === AnswersStore.activeVariantId ? BLUE : (isPositive ? WHITE : RED)
                 }}
             >
 
             </BlockStyled>
-            {<CloseIcon className="close" onClick={() => {
+            {<CloseIcon className="close" onClick={(e) => {
+                e.stopPropagation()
                 store.removeItem(id)
                 if (type === "question") {
                     AnswersStore.removeItem(id)
