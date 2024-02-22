@@ -9,7 +9,7 @@ interface IButton {
 const Button: FC<IButton> = ({children, onClick}) => {
     return (
         <ButtonStyled onClick={onClick}>
-            {children}
+            <h2>{children}</h2>
         </ButtonStyled>
     )
 }

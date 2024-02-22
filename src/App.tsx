@@ -1,24 +1,29 @@
 import './App.css';
-import QuestionsContainer from './components/QuestionsContainer/QuestionsContainer';
-import VariantsContainer from './components/VariantsContainer/VariantsContainer';
-import AnswersContainer from './components/AnswersContainer/AnswersContainer';
 import { observer } from 'mobx-react-lite';
-import { Route, Routes } from 'react-router-dom';
-import { CreatePage } from './pages/CreateSystemPage/CreatePage';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { CreateSystemPage } from './pages/CreateSystemPage/CreateSystemPage';
 import SelectModePage from './pages/SelectModePage/SelectModePage';
 import SelectSystemPage from './pages/SelectSystemPage/SelectSystemPage';
 import UseSystemPage from './pages/UseSystemPage/UseSystemPage';
+import ReplyIcon from '@mui/icons-material/Reply';
+import { AppStyled } from './App.styled';
+import { BLUE } from './constants';
+
 
 const App = observer(() => {
+
+  const navigate = useNavigate()
+
   return (
-    <div className="App">
+    <AppStyled>
+        <ReplyIcon className='back' onClick={() => {navigate('/')}}/>
         <Routes>
           <Route path='/' element={<SelectModePage/>} />
           <Route path='/select' element={<SelectSystemPage/>} />
-          <Route path='/create' element={<CreatePage/>} />
+          <Route path='/create' element={<CreateSystemPage/>} />
           <Route path='/use' element={<UseSystemPage/>} />
         </Routes>
-    </div>
+    </AppStyled>
   );
 });
 

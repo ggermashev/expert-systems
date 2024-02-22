@@ -8,7 +8,7 @@ const SelectModePage = () => {
 
     return (
         <SelectModePageStyled>
-            <Button onClick={() => {navigate('/use')}}>Использовать ЭС</Button>
+            <Button onClick={() => {navigate('/select')}}>Использовать ЭС</Button>
             <Button onClick={() => {navigate('/create')}}>Создать ЭС</Button>
         </SelectModePageStyled>
     )   
