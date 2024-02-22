@@ -111,6 +111,17 @@ class AnswersStore {
         return isPositive ? "positive" : "negative"
     }
 
+    isPositive(id: number) {
+        let isPositive = true;
+        this._answers.forEach(ans => {
+            if (ans.variantId === this._activeVariantId && ans.negativeQuestionsId.includes(id)) {
+                isPositive = false
+            }
+        })
+
+        return isPositive
+    }
+
     removeVariant(id: number) {
         this.answers = this._answers.filter(ans => ans.variantId !== id)
     }

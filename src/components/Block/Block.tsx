@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import { BlockStyled, WrapStyled } from "./Block.styled"
 import { IQuestion } from "../../types"
 import QuestionsStore from "../../store/Questions.store"
@@ -22,8 +22,15 @@ export interface IBlock {
 
 const Block: FC<IBlock> = observer(({ text, id, store, type, onClick }) => {
     const [value, setValue] = useState(text)
-    const [isPositive, setIsPositive] = useState(true)
-    const ansRef = useRef(null)
+    const [isPositive, setIsPositive] = useState(AnswersStore.isPositive(id))
+
+    useEffect(() => {
+        if (type === "answer") {
+            setIsPositive(AnswersStore.isPositive(id))
+        } else {
+            setIsPositive(true)
+        }
+    }, [AnswersStore.activeVariantId])
 
     const [{ isDragging }, dragRef] = useDrag({
         type: `${type}`,
@@ -53,7 +60,7 @@ const Block: FC<IBlock> = observer(({ text, id, store, type, onClick }) => {
     return (
         <WrapStyled 
             draggable 
-            ref={type === "question" ? dragRef : (type === "variant" ? dropRef : ansRef)}
+            ref={type === "question" ? dragRef : (type === "variant" ? dropRef : null)}
             onClick={() => {
                 onClick?.();
                 if (type === "answer") {
