@@ -1,5 +1,6 @@
 {
   "name": "expert_system",
+  "homepage": "es",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,9 +11,13 @@
     "@types/node": "^16.18.82",
     "@types/react": "^18.2.57",
     "@types/react-dom": "^18.2.19",
+    "mobx": "^6.12.0",
+    "mobx-react-lite": "^4.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
+    "styled-components": "^6.1.8",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
