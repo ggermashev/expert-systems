@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/expert-systems/static/css/main.c7ec3132.css",
-    "main.js": "/expert-systems/static/js/main.cd7607c9.js",
+    "main.js": "/expert-systems/static/js/main.f5187758.js",
     "index.html": "/expert-systems/index.html",
     "main.c7ec3132.css.map": "/expert-systems/static/css/main.c7ec3132.css.map",
-    "main.cd7607c9.js.map": "/expert-systems/static/js/main.cd7607c9.js.map"
+    "main.f5187758.js.map": "/expert-systems/static/js/main.f5187758.js.map"
   },
   "entrypoints": [
     "static/css/main.c7ec3132.css",
-    "static/js/main.cd7607c9.js"
+    "static/js/main.f5187758.js"
   ]
 }
